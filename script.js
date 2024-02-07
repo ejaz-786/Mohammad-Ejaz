@@ -42,3 +42,41 @@ window.onscroll = () => {
   menuIcon.classList.remove("bx-x");
   navbar.classList.remove("active");
 };
+
+//  Google form storing data
+
+const google_form_url =
+  "https://docs.google.com/forms/d/1MXuedJ_wDYfOSjuTliloVg_B0FP2vioeUmKVOsGzV9E/prefill";
+
+document
+  .getElementById("googleform")
+  .addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    const formData = new FormData(this);
+    const formEntries = formData.entries();
+
+    let formDataObject = {};
+    for (const [key, value] of formEntries) {
+      formDataObject[key] = value;
+    }
+
+    // Replace 'YOUR_GOOGLE_FORM_URL' with the actual Google Form URL
+    const googleFormUrl = google_form_url;
+
+    fetch(googleFormUrl, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams(formDataObject).toString(),
+    })
+      .then((response) => {
+        // Handle response if needed
+        console.log("Form submitted successfully");
+      })
+      .catch((error) => {
+        console.error("Error submitting form:", error);
+      });
+  });
